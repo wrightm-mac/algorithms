@@ -33,21 +33,36 @@
 ----------------------------------------------------------------------------- */
 
 
-const peddle = require('./lib/peddle');
+const heap = require('../../lib/sort/heap');
 
-const coreCompare = require('./core/compare');
-const coreStandard = require('./core/standard');
-const coreUtility = require('./core/utility');
-
-const sortInsertion = require('./sort/insertion');
-const sortSelection = require('./sort/selection');
-const sortHeap = require('./sort/heap');
+const compare = require('../../lib/core/compare');
+const utility = require('../../lib/core/utility');
 
 
-peddle.run(coreCompare);
-peddle.run(coreStandard);
-peddle.run(coreUtility);
+module.exports = {
+  name: "sort/heap",
 
-peddle.run(sortInsertion);
-peddle.run(sortSelection);
-peddle.run(sortHeap);
+  $setup: function() {
+    this.array = utility.array.random(1000);
+  },
+
+  sort_empty: function() {
+    const sorted = heap.sort([], compare.number);
+    this.assert(sorted.length === 0, "heap-sort empty");
+  },
+
+  sort_single: function() {
+    const sorted = heap.sort([99], compare.number);
+    this.assert(sorted.length === 1, "heap-sort single");
+  },
+
+  sort_valid_ascending: function() {
+    const sorted = heap.sort(this.array, compare.number);
+    this.assert(utility.ascending(sorted, (a, b) => a === b), "heap-sort valid ascending");
+  },
+
+  sort_valid_descending: function() {
+    const sorted = heap.sort(this.array, compare.reverse(compare.number));
+    this.assert(utility.descending(sorted, (a, b) => a === b), "heap-sort valid descending");
+  }
+};
