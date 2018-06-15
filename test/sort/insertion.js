@@ -51,6 +51,11 @@ module.exports = {
     this.assert(sorted.length === 0, "insertion-sort empty");
   },
 
+  sort_single: function() {
+    const sorted = insertion.sort([99], compare.number);
+    this.assert(sorted.length === 1, "insertion-sort single");
+  },
+
   sort_valid_ascending: function() {
     const sorted = insertion.sort(this.array, compare.number);
     this.assert(utility.ascending(sorted, compare.number), "insertion-sort valid ascending");
