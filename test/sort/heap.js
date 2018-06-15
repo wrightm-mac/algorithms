@@ -33,7 +33,7 @@
 ----------------------------------------------------------------------------- */
 
 
-const heap = require('../../lib/sort/heap');
+const sort = require('../../lib/sort/heap');
 
 const compare = require('../../lib/core/compare');
 const utility = require('../../lib/core/utility');
@@ -47,22 +47,22 @@ module.exports = {
   },
 
   sort_empty: function() {
-    const sorted = heap.sort([], compare.number);
+    const sorted = sort([], compare.number);
     this.assert(sorted.length === 0, "heap-sort empty");
   },
 
   sort_single: function() {
-    const sorted = heap.sort([99], compare.number);
+    const sorted = sort([99], compare.number);
     this.assert(sorted.length === 1, "heap-sort single");
   },
 
   sort_valid_ascending: function() {
-    const sorted = heap.sort(this.array, compare.number);
+    const sorted = sort(this.array, compare.number);
     this.assert(utility.ascending(sorted, (a, b) => a === b), "heap-sort valid ascending");
   },
 
   sort_valid_descending: function() {
-    const sorted = heap.sort(this.array, compare.reverse(compare.number));
+    const sorted = sort(this.array, compare.reverse(compare.number));
     this.assert(utility.descending(sorted, (a, b) => a === b), "heap-sort valid descending");
   }
 };
