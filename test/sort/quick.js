@@ -33,43 +33,36 @@
 ----------------------------------------------------------------------------- */
 
 
-const standard = require('../core/standard');
+const sort = require('../../lib/sort/quick');
+
+const compare = require('../../lib/core/compare');
+const utility = require('../../lib/core/utility');
 
 
-function sort(values, comparer) {
-  const length = values.length;
+module.exports = {
+  name: "sort/quick",
 
-  buildHeap();
+  $setup: function() {
+    this.array = utility.array.random(1000, 1, 1000);
+  },
 
-  for (let index = length - 1; index >= 1; --index) {
-    standard.swap(values, 0, index);
-    heapify(0, index);
+  sort_empty: function() {
+    const sorted = sort([], compare.number);
+    this.assert(sorted.length === 0, "quick-sort empty");
+  },
+
+  sort_single: function() {
+    const sorted = sort([99], compare.number);
+    this.assert(sorted.length === 1, "quick-sort single");
+  },
+
+  sort_valid_ascending: function() {
+    const sorted = sort(this.array, compare.number);
+    this.assert(utility.ascending(sorted, compare.number), "quick-sort valid ascending");
+  },
+
+  sort_valid_descending: function() {
+    const sorted = sort(this.array, compare.reverse(compare.number));
+    this.assert(utility.descending(sorted, compare.number), "quick-sort valid descending");
   }
-
-  return values;
-
-  function buildHeap() {
-    for (let index = length / 2 - 1; index >= 0; --index) {
-      heapify(index, length);
-    }
-  }
-
-  function heapify(index, max) {
-    const left = 2 * index + 1;
-    const right = 2 *index + 2;
-
-    let largest = index;
-    if ((comparer(left, max) < 0) && (comparer(values[left], values[index]) > 0)) {
-      largest = left;
-    }
-    if ((comparer(right, max) < 0) && (comparer(values[right], values[largest]) > 0)) {
-      largest = right;
-    }
-    if (largest !== index) {
-      standard.swap(values, index, largest);
-      heapify(largest, max);
-    }
-  }
-}
-
-module.exports = sort;
+};

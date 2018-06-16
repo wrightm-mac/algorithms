@@ -43,7 +43,7 @@ module.exports = {
   name: "sort/heap",
 
   $setup: function() {
-    this.array = utility.array.random(1000);
+    this.array = utility.array.random(1000, 1, 1000);
   },
 
   sort_empty: function() {
@@ -59,10 +59,5 @@ module.exports = {
   sort_valid_ascending: function() {
     const sorted = sort(this.array, compare.number);
     this.assert(utility.ascending(sorted, (a, b) => a === b), "heap-sort valid ascending");
-  },
-
-  sort_valid_descending: function() {
-    const sorted = sort(this.array, compare.reverse(compare.number));
-    this.assert(utility.descending(sorted, (a, b) => a === b), "heap-sort valid descending");
   }
 };

@@ -87,6 +87,7 @@ module.exports = {
         }
         catch(error) {
           const elapsed = new Date() - starttime;
+          //console.error("*(%o)", error);
           this.log("red", "failure", error, elapsed);
 
           ++count.failure;

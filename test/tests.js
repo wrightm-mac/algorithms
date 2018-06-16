@@ -42,6 +42,7 @@ const coreUtility = require('./core/utility');
 const sortInsertion = require('./sort/insertion');
 const sortSelection = require('./sort/selection');
 const sortHeap = require('./sort/heap');
+const sortQuick = require('./sort/quick');
 
 
 peddle.run(coreCompare);
@@ -51,3 +52,4 @@ peddle.run(coreUtility);
 peddle.run(sortInsertion);
 peddle.run(sortSelection);
 peddle.run(sortHeap);
+peddle.run(sortQuick);
