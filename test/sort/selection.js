@@ -33,7 +33,7 @@
 ----------------------------------------------------------------------------- */
 
 
-const selection = require('../../lib/sort/selection');
+const sort = require('../../lib/sort/selection');
 
 const compare = require('../../lib/core/compare');
 const utility = require('../../lib/core/utility');
@@ -47,27 +47,22 @@ module.exports = {
   },
 
   sort_empty: function() {
-    const sorted = selection.sort([], compare.number);
+    const sorted = sort([], compare.number);
     this.assert(sorted.length === 0, "selection-sort empty");
   },
 
   sort_single: function() {
-    const sorted = selection.sort([99], compare.number);
+    const sorted = sort([99], compare.number);
     this.assert(sorted.length === 1, "selection-sort single");
   },
 
   sort_valid_ascending: function() {
-    const sorted = selection.sort(this.array, compare.number);
+    const sorted = sort(this.array, compare.number);
     this.assert(utility.ascending(sorted, compare.number), "selection-sort valid ascending");
   },
 
-  sort_valid_descending_1: function() {
-    const sorted = selection.sort(this.array, compare.number, true);
-    this.assert(utility.descending(sorted, compare.number), "selection-sort valid descending 1");
-  },
-
-  sort_valid_descending_2: function() {
-    const sorted = selection.sort(this.array, compare.reverse(compare.number));
-    this.assert(utility.descending(sorted, compare.number), "selection-sort valid descending 2");
+  sort_valid_descending: function() {
+    const sorted = sort(this.array, compare.reverse(compare.number));
+    this.assert(utility.descending(sorted, compare.number), "selection-sort valid descending");
   }
 };

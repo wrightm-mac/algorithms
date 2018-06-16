@@ -33,7 +33,7 @@
 ----------------------------------------------------------------------------- */
 
 
-const insertion = require('../../lib/sort/insertion');
+const sort = require('../../lib/sort/insertion');
 
 const compare = require('../../lib/core/compare');
 const utility = require('../../lib/core/utility');
@@ -43,31 +43,26 @@ module.exports = {
   name: "sort/insertion",
 
   $setup: function() {
-    this.array = utility.array.random(1000);
+    this.array = utility.array.random(1000, 1, 1000);
   },
 
   sort_empty: function() {
-    const sorted = insertion.sort([], compare.number);
+    const sorted = sort([], compare.number);
     this.assert(sorted.length === 0, "insertion-sort empty");
   },
 
   sort_single: function() {
-    const sorted = insertion.sort([99], compare.number);
+    const sorted = sort([99], compare.number);
     this.assert(sorted.length === 1, "insertion-sort single");
   },
 
   sort_valid_ascending: function() {
-    const sorted = insertion.sort(this.array, compare.number);
+    const sorted = sort(this.array, compare.number);
     this.assert(utility.ascending(sorted, compare.number), "insertion-sort valid ascending");
   },
 
-  sort_valid_descending_1: function() {
-    const sorted = insertion.sort(this.array, compare.number, true);
-    this.assert(utility.descending(sorted, compare.number), "insertion-sort valid descending 1");
-  },
-
-  sort_valid_descending_2: function() {
-    const sorted = insertion.sort(this.array, compare.reverse(compare.number));
-    this.assert(utility.descending(sorted, compare.number), "insertion-sort valid descending 2");
+  sort_valid_descending: function() {
+    const sorted = sort(this.array, compare.reverse(compare.number), true);
+    this.assert(utility.descending(sorted, compare.number), "insertion-sort valid descending");
   }
 };
