@@ -78,5 +78,38 @@ module.exports = {
 
   comparestring_reverse_greaterthan: function() {
     this.assert(compare.reverse(compare.string)("xyz", "abc") < 0, "string comparison greater-than");
-  }
+  },
+
+
+  comparearray_empty_both: function() {
+    this.assert(compare.array([], [], compare.number) === 0, "array comparison empty both");
+  },
+
+  comparearray_empty_left: function() {
+    this.assert(compare.array([], [1, 2, 3], compare.number) < 0, "array comparison empty left");
+  },
+
+  comparearray_empty_right: function() {
+    this.assert(compare.array([1, 2, 3], [], compare.number) > 0, "array comparison empty right");
+  },
+
+  comparearray_equal: function() {
+    this.assert(compare.array([1, 2, 3, 4], [1, 2, 3, 4], compare.number) === 0, "array comparison equal");
+  },
+
+  comparearray_left_longer: function() {
+    this.assert(compare.array([1, 2, 3], [1, 2], compare.number) > 0, "array comparison left longer");
+  },
+
+  comparearray_right_longer: function() {
+    this.assert(compare.array([1, 2], [1, 2, 3], compare.number) < 0, "array comparison right longer");
+  },
+
+  comparearray_left_greater: function() {
+    this.assert(compare.array([1, 2, 4, 9], [1, 2, 3, 9], compare.number) > 0, "array comparison left greater");
+  },
+
+  comparearray_right_greater: function() {
+    this.assert(compare.array([1, 2, 3, 9], [1, 2, 4, 9], compare.number) < 0, "array comparison right greater");
+  },
 };

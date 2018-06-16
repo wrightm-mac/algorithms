@@ -33,64 +33,36 @@
 ----------------------------------------------------------------------------- */
 
 
+const sort = require('../../lib/sort/merge');
+
+const compare = require('../../lib/core/compare');
+const utility = require('../../lib/core/utility');
+
+
 module.exports = {
-  swap: function(array, a, b) {
-    const temp = array[a];
-    array[a] = array[b];
-    array[b] = temp;
-  },
+  name: "sort/quick",
 
-  copy: function(array) {
-    const fresh = [];
+  // $setup: function() {
+  //   this.array = utility.array.random(10000, 1, 10000);
+  // },
 
-    for (const index in array) {
-      fresh.push(array[index]);
-    }
+  // sort_empty: function() {
+  //   const sorted = sort([], compare.number);
+  //   this.assert(sorted.length === 0, "quick-sort empty");
+  // },
 
-    return fresh;
-  },
+  // sort_single: function() {
+  //   const sorted = sort([99], compare.number);
+  //   this.assert(sorted.length === 1, "quick-sort single");
+  // },
 
-  append: function(first, second) {
-    for (const value of second) {
-      first.push(second);
-    }
+  // sort_valid_ascending: function() {
+  //   const sorted = sort(this.array, compare.number);
+  //   this.assert(utility.ascending(sorted, compare.number), "quick-sort valid ascending");
+  // },
 
-    return first;
-  },
-
-  merge: function(... arrays) {
-    let merged = [];
-    for (const array of arrays) {
-      merged = this.append(merged, array);
-    }
-
-    return merged;
-  },
-
-  max: function(a, b) {
-    a = a || 0;
-    b = b || a;
-    return (a > b) ? a : b;
-  },
-
-  min: function(a, b) {
-    a = a || 0;
-    b = b || a;
-    return (a < b) ? a : b;
-  },
-
-  random: function(min, max) {
-    const range = max - min;
-    return Math.round((Math.random() * range + min));
-  },
-
-  randomiser: function(min, max) {
-    min = this.min(min, max);
-    max = this.max(min, max);
-    const range = max - min;
-
-    return () => {
-      return Math.round((Math.random() * range + min));
-    };
-  }
+  // sort_valid_descending: function() {
+  //   const sorted = sort(this.array, compare.reverse(compare.number));
+  //   this.assert(utility.descending(sorted, compare.number), "quick-sort valid descending");
+  // }
 };
