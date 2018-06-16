@@ -43,7 +43,7 @@ module.exports = {
   name: "sort/selection",
 
   $setup: function() {
-    this.array = utility.array.random(1000);
+    this.array = utility.array.random(10000, 1, 10000);
   },
 
   sort_empty: function() {
