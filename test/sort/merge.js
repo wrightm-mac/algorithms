@@ -40,29 +40,29 @@ const utility = require('../../lib/core/utility');
 
 
 module.exports = {
-  name: "sort/quick",
+  name: "sort/merge",
 
-  // $setup: function() {
-  //   this.array = utility.array.random(10000, 1, 10000);
-  // },
+  $setup: function() {
+    this.array = utility.array.random(10, 1, 10);
+  },
 
-  // sort_empty: function() {
-  //   const sorted = sort([], compare.number);
-  //   this.assert(sorted.length === 0, "quick-sort empty");
-  // },
+  sort_empty: function() {
+    const sorted = sort([], compare.number);
+    this.assert(sorted.length === 0, "quick-sort empty");
+  },
 
-  // sort_single: function() {
-  //   const sorted = sort([99], compare.number);
-  //   this.assert(sorted.length === 1, "quick-sort single");
-  // },
+  sort_single: function() {
+    const sorted = sort([99], compare.number);
+    this.assert(sorted.length === 1, "quick-sort single");
+  },
 
-  // sort_valid_ascending: function() {
-  //   const sorted = sort(this.array, compare.number);
-  //   this.assert(utility.ascending(sorted, compare.number), "quick-sort valid ascending");
-  // },
+  sort_valid_ascending: function() {
+    const sorted = sort(this.array, compare.number);
+    this.assert(utility.ascending(sorted, compare.number), "quick-sort valid ascending");
+  },
 
-  // sort_valid_descending: function() {
-  //   const sorted = sort(this.array, compare.reverse(compare.number));
-  //   this.assert(utility.descending(sorted, compare.number), "quick-sort valid descending");
-  // }
+  sort_valid_descending: function() {
+    const sorted = sort(this.array, compare.reverse(compare.number));
+    this.assert(utility.descending(sorted, compare.number), "quick-sort valid descending");
+  }
 };
