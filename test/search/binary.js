@@ -33,79 +33,49 @@
 ----------------------------------------------------------------------------- */
 
 
-const chalk = require('chalk');
-const assert = require('./assert');
+const search = require('../../lib/search/binary');
+
+const sort = require('../../lib/sort/quick');
+const compare = require('../../lib/core/compare');
+const utility = require('../../lib/core/utility');
 
 
 module.exports = {
-  log: function(color, message, name, elapsed) {
-    let out = `${chalk[color](chalk.bold(message))}('${chalk.bold(name)}')`;
-    if (elapsed) {
-      out += ` in ${elapsed}ms`;
-    }
+  name: "search/binary",
 
-    console.log(out);
+  $init: function() {
+    this.collection = sort(utility.array.random(1000000, 1, 10000), compare.number);
   },
 
-  run: function(tests, config) {
-    this.log("blue", "suite", tests.name);
+  search_find_empty: function() {
+    this.assert(! search([], 2108, compare.number), "search binary - find empty");
+  },
 
-    const count = {
-      tests: 0,
-      success: 0,
-      failure: 0
-    };
+  search_find_small: function() {
+    this.assert(search([10, 20, 30], 20, compare.number), "search binary - find small range");
+  },
 
-    const assertions = new assert(tests.name);
+  search_find_small_fail: function() {
+    this.assert(! search([10, 20, 30], 19, compare.number), "search binary - fail small range");
+  },
 
-    if (tests.$init) {
-      tests.$init.call(assertions, config);
-    }
+  search_find_median: function() {
+    const value = this.collection[Math.floor(this.collection.length / 2)];
+    this.assert(search(this.collection, value, compare.number), "search binary - find median");
+  },
 
-    for (const name in tests) {
-      const func = tests[name];
+  search_find_first: function() {
+    const value = this.collection[0];
+    this.assert(search(this.collection, value, compare.number), "search binary - find first");
+  },
 
-      if ((! name.startsWith("$")) && (typeof(func) === "function")) {
-        this.log("yellow", "starting", `${tests.name}:${name}`);
+  search_find_last: function() {
+    const value = this.collection[this.collection.length - 1];
+    this.assert(search(this.collection, value, compare.number), "search binary - find last");
+  },
 
-        let starttime;
-        try {
-          ++count.tests;
-
-          starttime = new Date();
-          if (tests.$setup) {
-            tests.$setup.call(assertions, config);
-          }
-
-          starttime = new Date();
-          func.call(assertions, config);
-
-          if (tests.$teardown) {
-            tests.$teardown.call(assertions, config);
-          }
-
-          const elapsed = new Date() - starttime;
-          this.log("green", "success", `${tests.name}:${name}`, elapsed);
-
-          ++count.success;
-        }
-        catch(error) {
-          const elapsed = new Date() - starttime;
-          //console.error("*(%o)", error);
-          this.log("red", "failure", error, elapsed);
-
-          ++count.failure;
-        }
-
-      }
-    }
-
-    this.log("blue", "tests", count.tests);
-    this.log("blue", "success", count.success);
-    this.log("blue", "failure", count.failure);
-
-    console.log();
-
-    return count;
+  search_fail: function() {
+    const value = 99000;
+    this.assert(! search(this.collection, value, compare.number), "search binary - not found");
   }
 };

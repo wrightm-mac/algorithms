@@ -46,6 +46,7 @@ const sortQuick = require('./sort/quick');
 const sortMerge = require('./sort/merge');
 
 const searchSequential = require('./search/sequential');
+const searchBinary = require('./search/binary');
 
 
 peddle.run(coreCompare);
@@ -59,3 +60,4 @@ peddle.run(sortQuick);
 peddle.run(sortMerge);
 
 peddle.run(searchSequential);
+peddle.run(searchBinary);
