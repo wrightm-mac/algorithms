@@ -45,6 +45,8 @@ const sortHeap = require('./sort/heap');
 const sortQuick = require('./sort/quick');
 const sortMerge = require('./sort/merge');
 
+const searchSequential = require('./search/sequential');
+
 
 peddle.run(coreCompare);
 peddle.run(coreStandard);
@@ -55,3 +57,5 @@ peddle.run(sortSelection);
 peddle.run(sortHeap);
 peddle.run(sortQuick);
 peddle.run(sortMerge);
+
+peddle.run(searchSequential);

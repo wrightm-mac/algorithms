@@ -33,64 +33,36 @@
 ----------------------------------------------------------------------------- */
 
 
+const search = require('../../lib/search/sequential');
+
+const compare = require('../../lib/core/compare');
+const utility = require('../../lib/core/utility');
+
+
 module.exports = {
-  swap: function(array, a, b) {
-    const temp = array[a];
-    array[a] = array[b];
-    array[b] = temp;
+  name: "search/sequential",
+
+  $setup: function() {
+    this.collection = utility.array.random(10000, 1, 10000);
   },
 
-  copy: function(array) {
-    const fresh = [];
-
-    for (const value of array) {
-      fresh.push(value);
-    }
-
-    return fresh;
+  search_find_median: function() {
+    const value = this.collection[Math.floor(this.collection.length / 2)];
+    this.assert(search(this.collection, value, compare.number), "search sequential - find median");
   },
 
-  append: function(first, second) {
-    for (const value of second) {
-      first.push(value);
-    }
-
-    return first;
+  search_find_first: function() {
+    const value = this.collection[0];
+    this.assert(search(this.collection, value, compare.number), "search sequential - find first");
   },
 
-  merge: function(... arrays) {
-    let merged = [];
-    for (const array of arrays) {
-      merged = this.append(merged, array);
-    }
-
-    return merged;
+  search_find_last: function() {
+    const value = this.collection[this.collection.length - 1];
+    this.assert(search(this.collection, value, compare.number), "search sequential - find last");
   },
 
-  max: function(a, b) {
-    a = a || 0;
-    b = b || a;
-    return (a > b) ? a : b;
-  },
-
-  min: function(a, b) {
-    a = a || 0;
-    b = b || a;
-    return (a < b) ? a : b;
-  },
-
-  random: function(min, max) {
-    const range = max - min;
-    return Math.round((Math.random() * range + min));
-  },
-
-  randomiser: function(min, max) {
-    min = this.min(min, max);
-    max = this.max(min, max);
-    const range = max - min;
-
-    return () => {
-      return Math.round((Math.random() * range + min));
-    };
+  search_fail: function() {
+    const value = 99000;
+    this.assert(! search(this.collection, value, compare.number), "search sequential - not found");
   }
 };
