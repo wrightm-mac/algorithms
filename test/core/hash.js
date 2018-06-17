@@ -33,55 +33,57 @@
 ----------------------------------------------------------------------------- */
 
 
-module.exports = function(name) {
-  this.assertions = [];
+const hash = require('../../lib/core/hash');
 
-  this.assert = function(condition, message) {
-    this.assertions.push({
-      message: message,
-      success: condition
-    });
 
-    if (! condition) {
-      throw new Error(message || "assertion failed");
-    }
-  };
+module.exports = {
+  name: "core/hash",
 
-  this.assertDefined = function(object, message) {
-    this.assert(object !== undefined, message);
-  };
-
-  this.assertUndefined = function(object, message) {
-    this.assert(object === undefined, message);
-  };
-
-  this.assertNull = function(object, message) {
-    this.assert(object === null, message);
+  hash_string: function() {
+    const value = "hello, world!";
+    const hashed = hash(value);
+    this.assertIsNumber(hashed, "hash string");
   },
 
-  this.assertNotNull = function(object, message) {
-    this.assert(object !== null, message);
-  };
+  hash_string_range: function() {
+    const value = "hello, world!";
+    const hashed = hash(value, 256);
+    this.assert((hashed >= 0) && (hashed < 256), "hash string range");
+  },
 
-  this.assertIsNumber = function(object, message) {
-    this.assert((object !== undefined) && (typeof(object) === "number"), message);
-  }
+  hash_number: function() {
+    const value = 2108;
+    const hashed = hash(value);
+    this.assertIsNumber(hashed, "hash number");
+  },
 
-  this.assertIsString = function(object, message) {
-    this.assert((object !== undefined) && (typeof(object) === "string"), message);
-  }
+  hash_number_range: function() {
+    const value = 2108;
+    const hashed = hash(value, 256);
+    this.assert((hashed >= 0) && (hashed < 256), "hash number range");
+  },
 
-  this.assertIsFunction = function(object, message) {
-    this.assert((object !== undefined) && (typeof(object) === "function"), message);
-  }
+  hash_date: function() {
+    const value = Date.now();
+    const hashed = hash(value);
+    this.assertIsNumber(hashed, "hash date");
+  },
 
-  this.assertIsObject = function(object, message) {
-    this.assert((object !== undefined) && (typeof(object) === "object"), message);
-  }
+  hash_date_range: function() {
+    const value = Date.now();
+    const hashed = hash(value, 256);
+    this.assert((hashed >= 0) && (hashed < 256), "hash date range");
+  },
 
-  this.log = function(logger) {
-    for (const assertion of this.assertions) {
-      logger(`assert('${assertion.message}') : ${assertion.success}`);
-    }
-  };
+  hash_object: function() {
+    const value = {first: "one", second: "two"};
+    const hashed = hash(value);
+    this.assertIsNumber(hashed, "hash object");
+  },
+
+  hash_object_range: function() {
+    const value = {first: "one", second: "two"};
+    const hashed = hash(value, 256);
+    this.assert((hashed >= 0) && (hashed < 256), "hash object range");
+  },
 };

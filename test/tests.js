@@ -38,6 +38,7 @@ const peddle = require('./lib/peddle');
 const coreCompare = require('./core/compare');
 const coreStandard = require('./core/standard');
 const coreUtility = require('./core/utility');
+const coreHash = require('./core/hash');
 
 const sortInsertion = require('./sort/insertion');
 const sortSelection = require('./sort/selection');
@@ -52,6 +53,7 @@ const searchBinary = require('./search/binary');
 peddle.run(coreCompare);
 peddle.run(coreStandard);
 peddle.run(coreUtility);
+peddle.run(coreHash);
 
 peddle.run(sortInsertion);
 peddle.run(sortSelection);
