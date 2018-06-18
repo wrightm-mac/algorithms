@@ -46,6 +46,8 @@ const sortHeap = require('./sort/heap');
 const sortQuick = require('./sort/quick');
 const sortMerge = require('./sort/merge');
 
+const collectionSimpleLinkedList = require('./collection/simplelinkedlist');
+
 const searchSequential = require('./search/sequential');
 const searchBinary = require('./search/binary');
 
@@ -60,6 +62,8 @@ peddle.run(sortSelection);
 peddle.run(sortHeap);
 peddle.run(sortQuick);
 peddle.run(sortMerge);
+
+peddle.run(collectionSimpleLinkedList);
 
 peddle.run(searchSequential);
 peddle.run(searchBinary);
