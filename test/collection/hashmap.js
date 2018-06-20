@@ -34,85 +34,41 @@
 
 
 const hashmap = require('../../lib/collection/hashmap');
+const compare = require('../../lib/core/compare');
 
 
 module.exports = {
   name: "collection/hashmap",
 
   $setup: function() {
-    this.collection = new hashmap();
+    this.collection = new hashmap(compare.string);
+
+  },
+
+  list_size_empty: function() {
+    this.assert(this.collection.size() === 0, "hashmap - size 0");
+  },
+
+  list_size_1: function() {
+    this.collection.add("hello");
+    this.assert(this.collection.size() === 1, "hashmap - size 1");
+  },
+
+  list_size_2: function() {
+    this.collection.add("abc");
+    this.collection.add("def");
+    this.assert(this.collection.size() === 2, "hashmap - size 2");
+  },
+
+  list_size: function() {
+    this.collection.add("abc");
+    this.collection.add("def");
+    this.collection.add("pqr");
+    this.assert(this.collection.size() === 3, "hashmap - size 3");
   },
 
   list_add_single_added: function() {
     this.collection.add("hello");
-    this.assertDefined(this.collection.first, "simple-linked-list - single added");
-  },
-
-  list_add_single_value: function() {
-    this.collection.add("hello");
-    this.assert(this.collection.first.value === "hello", "simple-linked-list - single value correct");
-  },
-
-  list_add_single_double: function() {
-    this.collection.add("hello");
-    this.collection.add("world");
-    this.assertDefined(this.collection.first.next, "simple-linked-list - double added");
-  },
-
-  list_add_double_value: function() {
-    this.collection.add("hello");
-    this.collection.add("world");
-    this.assert(this.collection.first.next.value === "hello", "simple-linked-list - double value correct");
-  },
-
-  list_find_single_value_exists: function() {
-    this.collection.add("hello");
-    this.assertDefined(this.collection.find(item => item === "hello"), "simple-linked-list - find single");
-  },
-
-  list_find_single_value_notexists: function() {
-    this.collection.add("hello");
-    this.collection.add("world");
-    this.assertUndefined(this.collection.find(item => item === "yada"), "simple-linked-list - single value correct");
-  },
-
-  list_find_single_value_correct: function() {
-    this.collection.add("hello");
-    this.assert(this.collection.find(item => item === "hello") === "hello", "simple-linked-list - find single value-correct");
-  },
-
-  list_find_single_value_notexists: function() {
-    this.collection.add("hello");
-    this.assertUndefined(this.collection.find(item => item === "yada"), "simple-linked-list - find single not-exists");
-  },
-
-  list_find_double_firstvalue_exists: function() {
-    this.collection.add("hello");
-    this.collection.add("world");
-    this.assertDefined(this.collection.find(item => item === "hello"), "simple-linked-list - find double first-exists");
-  },
-
-  list_find_double_firstvalue_correct: function() {
-    this.collection.add("hello");
-    this.collection.add("world");
-    this.assert(this.collection.find(item => item === "hello") === "hello", "simple-linked-list - find double first-correct");
-  },
-
-  list_find_double_secondvalue_exists: function() {
-    this.collection.add("hello");
-    this.collection.add("world");
-    this.assertDefined(this.collection.find(item => item === "world"), "simple-linked-list - find double second-exists");
-  },
-
-  list_find_double_secondvalue_correct: function() {
-    this.collection.add("hello");
-    this.collection.add("world");
-    this.assert(this.collection.find(item => item === "world") === "world", "simple-linked-list - find double second-correct");
-  },
-
-  list_find_double_notexists: function() {
-    this.collection.add("hello");
-    this.collection.add("world");
-    this.assertUndefined(this.collection.find(item => item === "yada"), "simple-linked-list - find double not-exists");
+    this.assertDefined(this.collection.find("hello"), "hashmap - add");
   }
 };
