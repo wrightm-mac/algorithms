@@ -59,15 +59,15 @@ peddle.run(coreStandard);
 peddle.run(coreUtility);
 peddle.run(coreHash);
 
-// peddle.run(sortInsertion);
-// peddle.run(sortSelection);
-// peddle.run(sortHeap);
-// peddle.run(sortQuick);
-// peddle.run(sortMerge);
+peddle.run(sortInsertion);
+peddle.run(sortSelection);
+peddle.run(sortHeap);
+peddle.run(sortQuick);
+peddle.run(sortMerge);
 
 peddle.run(collectionSimpleLinkedList);
 peddle.run(collectionHashMapSize);
 peddle.run(collectionHashMapContent);
 
-// peddle.run(searchSequential);
-// peddle.run(searchBinary);
+peddle.run(searchSequential);
+peddle.run(searchBinary);
