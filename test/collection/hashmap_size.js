@@ -33,68 +33,50 @@
 ----------------------------------------------------------------------------- */
 
 
-/**
- * Simple implementation of a linked list.
- *
- * Intended for use as a bucket in a hash-map.
- */
-module.exports = function SimpleLinkedList() {
+const hashmap = require('../../lib/collection/hashmap');
+const compare = require('../../lib/core/compare');
 
-  this.add = function(item) {
-    this.first = {
-      value: item,
-      next: this.first
-    };
-  }
 
-  this.update = function(item, func) {
-    for (let link = this.first; link; link = link.next) {
-      if (func(link.value)) {
-        link.value = item;
-        return;
-      }
-    }
+module.exports = {
+  name: "collection/hashmap-size",
 
-    this.add(item);
-  }
+  $setup: function() {
+    this.collection = new hashmap(compare.string);
 
-  this.remove = function(func) {
-    if (! this.first) {
-      return
-    }
-    else if (func(this.first.value)) {
-      this.first = this.first.next;
-    }
-    else {
-      for (let link = this.first; link; link = link.next) {
-        if ((link.next) && (func(link.next.value))) {
-          link.next = link.next.next;
-          break;
-        }
-      }
-    }
-  }
+  },
 
-  this.size = function() {
-    let count = 0;
-    for (let link = this.first; link; link = link.next) {
-      ++count;
-    }
+  list_size_empty: function() {
+    this.assert(this.collection.size() === 0, "hashmap - size 0");
+  },
 
-    return count;
-  }
+  list_size_1: function() {
+    this.collection.add("hello");
+    this.assert(this.collection.size() === 1, "hashmap - size 1");
+  },
 
-  this.find = function(func) {
-    for (let item = this.first; item; item = item.next) {
-      if (func(item.value)) {
-        return item.value;
-      }
-    }
-  }
+  list_size_2: function() {
+    this.collection.add("abc");
+    this.collection.add("def");
+    this.assert(this.collection.size() === 2, "hashmap - size 2");
+  },
 
-  this.debug = function() {
-    for (let link = this.first; link; link = link.next) {
-      console.log("simplelinkedlist.debug(%d)", link.value);
-    }
-  }
+  list_size: function() {
+    this.collection.add("abc");
+    this.collection.add("def");
+    this.collection.add("pqr");
+    this.assert(this.collection.size() === 3, "hashmap - size 3");
+  },
+
+  list_add_single_added: function() {
+    this.collection.add("hello");
+    this.assertDefined(this.collection.find("hello"), "hashmap - add");
+  },
+
+  list_find_double: function() {
+
+  },
+
+  list_find_triple: function() {
+
+  },
 };

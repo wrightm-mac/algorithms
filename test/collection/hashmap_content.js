@@ -35,40 +35,32 @@
 
 const hashmap = require('../../lib/collection/hashmap');
 const compare = require('../../lib/core/compare');
+const utility = require('../../lib/core/utility');
 
 
 module.exports = {
-  name: "collection/hashmap",
+  name: "collection/hashmap-content",
 
   $setup: function() {
-    this.collection = new hashmap(compare.string);
+    this.collection = new hashmap(compare.number, 43);
 
+    for (let count = 1; count <= 1000; ++count) {
+      this.collection.add(count);
+    }
+
+    this.assert(this.collection.size() === 1000, "hashmap content - created size");
   },
 
-  list_size_empty: function() {
-    this.assert(this.collection.size() === 0, "hashmap - size 0");
+  list_content_find_good: function() {
+    this.assertDefined(this.collection.find(8), "hashmap - content good");
+    this.assertDefined(this.collection.find(21), "hashmap - content good");
+    this.assertDefined(this.collection.find(407), "hashmap - content good");
+    this.assertDefined(this.collection.find(923), "hashmap - content good");
   },
 
-  list_size_1: function() {
-    this.collection.add("hello");
-    this.assert(this.collection.size() === 1, "hashmap - size 1");
+  list_content_find_bad: function() {
+    this.assertUndefined(this.collection.find(-31), "hashmap - content bad");
+    this.assertUndefined(this.collection.find(99000), "hashmap - content bad");
+    this.assertUndefined(this.collection.find(1001), "hashmap - content bad");
   },
-
-  list_size_2: function() {
-    this.collection.add("abc");
-    this.collection.add("def");
-    this.assert(this.collection.size() === 2, "hashmap - size 2");
-  },
-
-  list_size: function() {
-    this.collection.add("abc");
-    this.collection.add("def");
-    this.collection.add("pqr");
-    this.assert(this.collection.size() === 3, "hashmap - size 3");
-  },
-
-  list_add_single_added: function() {
-    this.collection.add("hello");
-    this.assertDefined(this.collection.find("hello"), "hashmap - add");
-  }
 };
