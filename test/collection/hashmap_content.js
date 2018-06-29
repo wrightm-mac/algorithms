@@ -76,5 +76,21 @@ module.exports = {
   list_content_add_duplicate_not_find: function() {
     this.collection.add(800);
     this.assertUndefined(this.collection.find(1031), "hashmap - content add duplicate not find");
+  },
+
+  list_content_remove_size: function() {
+    this.collection.remove(800);
+    this.collection.remove(210);
+    this.assert(this.collection.size() === 998, "hashmap - content remove size");
+  },
+
+  list_content_remove_find_other: function() {
+    this.collection.remove(800);
+    this.assertDefined(this.collection.find(210), "hashmap - content remove find other");
+  },
+
+  list_content_remove_not_find: function() {
+    this.collection.remove(800);
+    this.assertUndefined(this.collection.find(800), "hashmap - content remove not find");
   }
 };

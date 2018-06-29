@@ -72,11 +72,13 @@ module.exports = {
     this.assertDefined(this.collection.find("hello"), "hashmap - add");
   },
 
-  list_find_double: function() {
-
+  list_add_single_added_content_correct_1: function() {
+    this.collection.add("hello");
+    this.assert(this.collection.find("hello") === "hello", "hashmap - add content correct 1");
   },
 
-  list_find_triple: function() {
-
-  },
+  list_add_single_added_content_correct_2: function() {
+    this.collection.add("hello");
+    this.assert(this.collection.find("hello") !== "gdbye", "hashmap - add content correct 2");
+  }
 };
