@@ -35,14 +35,13 @@
 
 const hashmap = require('../../lib/collection/hashmap');
 const compare = require('../../lib/core/compare');
-const utility = require('../../lib/core/utility');
 
 
 module.exports = {
   name: "collection/hashmap-content",
 
   $setup: function() {
-    this.collection = new hashmap(compare.number, 43);
+    this.collection = new hashmap(compare.number, 197);
 
     for (let count = 1; count <= 1000; ++count) {
       this.collection.add(count);
@@ -63,4 +62,19 @@ module.exports = {
     this.assertUndefined(this.collection.find(99000), "hashmap - content bad");
     this.assertUndefined(this.collection.find(1001), "hashmap - content bad");
   },
+
+  list_content_add_duplicate_size: function() {
+    this.collection.add(210);
+    this.assert(this.collection.size() === 1000, "hashmap - content add duplicate size");
+  },
+
+  list_content_add_duplicate_find: function() {
+    this.collection.add(800);
+    this.assertDefined(this.collection.find(800), "hashmap - content add duplicate find");
+  },
+
+  list_content_add_duplicate_not_find: function() {
+    this.collection.add(800);
+    this.assertUndefined(this.collection.find(1031), "hashmap - content add duplicate not find");
+  }
 };
