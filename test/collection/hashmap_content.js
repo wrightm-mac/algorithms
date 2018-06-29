@@ -92,5 +92,34 @@ module.exports = {
   list_content_remove_not_find: function() {
     this.collection.remove(800);
     this.assertUndefined(this.collection.find(800), "hashmap - content remove not find");
+  },
+
+  list_content_iterate_count: function() {
+    let count = 0;
+    for (const value of this.collection.iterate()) {
+      this.assertDefined(value, "hashmap - content iterate has value");
+      ++count;
+    }
+    this.assert(count === 1000, "hashmap - content iterate count correct");
+  },
+
+  list_content_iterate_value_correct: function() {
+    let found;
+    for (const value of this.collection.iterate()) {
+      if (value === 21) {
+        found = true;
+      }
+    }
+    this.assert(found, "hashmap - content iterate value correct");
+  },
+
+  list_content_iterate_value_incorrect: function() {
+    let found;
+    for (const value of this.collection.iterate()) {
+      if (value === 8000) {
+        found = true;
+      }
+    }
+    this.assertUndefined(found, "hashmap - content iterate value incorrect");
   }
 };

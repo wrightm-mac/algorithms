@@ -272,4 +272,26 @@ module.exports = {
     this.collection.update("def", item => item === "def");
     this.assert(this.collection.size() === 2, "simple-linked-list - update - same multiple second");
   },
+
+  list_iterate_values: function() {
+    this.collection.add("hello");
+    this.collection.add("world");
+    this.collection.add("yada");
+    this.assertDefined(this.collection.iterate() === "hello", "simple-linked-list - iterate first value");
+    this.assertDefined(this.collection.iterate() === "world", "simple-linked-list - iterate second value");
+    this.assertDefined(this.collection.iterate() === "yada", "simple-linked-list - iterate third value");
+  },
+
+  list_iterate_count: function() {
+    this.collection.add("hello");
+    this.collection.add("world");
+    this.collection.add("yada");
+
+    let count = 0;
+    for (const value of this.collection.iterate()) {
+      this.assertDefined(value, "simple-linked-list - iterate count has value");
+      ++count;
+    }
+    this.assert(count === 3, "simple-linked-list - iterate count correct");
+  }
 };
