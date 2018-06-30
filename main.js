@@ -37,8 +37,8 @@ const insertion = require("./lib/sort/insertion");
 const compare = require("./lib/core/compare");
 
 
-let array = utility.array.random(12);
-console.log("before: %o", array);
-
-array = insertion.sort(array, compare.number);
-console.log("before: %o", array);
+const size = 21;
+const array = utility.array.scatter(21);
+for (let index = 0; index < size; ++index) {
+  console.log("scatter[%d]=%d", index, array[index]);
+}
