@@ -58,7 +58,7 @@ module.exports = {
   },
 
   tree_contains_good: function() {
-    this.assertDefined(this.tree.find(800), "tree - contains good");
+    this.assertDefined(this.tree.find(3), "tree - contains good");
   },
 
   tree_contains_bad: function() {
