@@ -33,43 +33,43 @@
 ----------------------------------------------------------------------------- */
 
 
-const peddle = require('./lib/peddle');
-
-const coreCompare = require('./core/compare');
-const coreStandard = require('./core/standard');
-const coreUtility = require('./core/utility');
-const coreHash = require('./core/hash');
-
-const sortInsertion = require('./sort/insertion');
-const sortSelection = require('./sort/selection');
-const sortHeap = require('./sort/heap');
-const sortQuick = require('./sort/quick');
-const sortMerge = require('./sort/merge');
-
-const collectionSimpleLinkedList = require('./collection/simplelinkedlist');
-const collectionHashMapSize = require('./collection/hashmap_size');
-const collectionHashMapContent = require('./collection/hashmap_content');
-const collectionBinaryTreeUnique = require('./collection/binarytree_unique');
-
-const searchSequential = require('./search/sequential');
-const searchBinary = require('./search/binary');
+const binarytree = require('../../lib/collection/binarytree');
+const compare = require('../../lib/core/compare');
+const utility = require('../../lib/core/utility');
 
 
-peddle.run(coreCompare);
-peddle.run(coreStandard);
-peddle.run(coreUtility);
-peddle.run(coreHash);
+module.exports = {
+  name: "collection/binarytree-unique",
 
-// peddle.run(sortInsertion);
-// peddle.run(sortSelection);
-// peddle.run(sortHeap);
-// peddle.run(sortQuick);
-// peddle.run(sortMerge);
+  $setup: function() {
+    this.tree = new binarytree(compare.number, true);
 
-peddle.run(collectionSimpleLinkedList);
-peddle.run(collectionHashMapSize);
-peddle.run(collectionHashMapContent);
-peddle.run(collectionBinaryTreeUnique);
+    const size = 21;
+    for (let count = 0; count < 3; ++count) {
+      let values = utility.array.scatter(size);
+      for (const value of values) {
+        this.tree.add(value);
+      }
+    }
+  },
 
-// peddle.run(searchSequential);
-// peddle.run(searchBinary);
+  tree_size: function() {
+    console.log("binarytree-unique(size=%d)", this.tree.size());
+    this.assert(this.tree.size() === 21, "tree - size");
+  },
+
+  tree_contains_good: function() {
+    this.assertDefined(this.tree.find(8), "tree - contains good");
+  },
+
+  tree_contains_bad: function() {
+    this.assertUndefined(this.tree.find(31), "tree - contains bad");
+  },
+
+  tree_each: function() {
+    let current = -1;
+    this.tree.each(value => {
+      this.assert(value === ++current, "tree - each - good sequence");
+    });
+  }
+};
