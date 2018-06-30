@@ -44,9 +44,9 @@ module.exports = {
   $setup: function() {
     this.tree = new binarytree(compare.number, true);
 
-    const size = 21;
+    this.size = 2108;
     for (let count = 0; count < 3; ++count) {
-      let values = utility.array.scatter(size);
+      let values = utility.array.scatter(this.size);
       for (const value of values) {
         this.tree.add(value);
       }
@@ -54,22 +54,27 @@ module.exports = {
   },
 
   tree_size: function() {
-    console.log("binarytree-unique(size=%d)", this.tree.size());
-    this.assert(this.tree.size() === 21, "tree - size");
+    this.assert(this.tree.size() === this.size, "tree - size");
   },
 
   tree_contains_good: function() {
-    this.assertDefined(this.tree.find(8), "tree - contains good");
+    this.assertDefined(this.tree.find(800), "tree - contains good");
   },
 
   tree_contains_bad: function() {
-    this.assertUndefined(this.tree.find(31), "tree - contains bad");
+    this.assertUndefined(this.tree.find(3100), "tree - contains bad");
   },
 
-  tree_each: function() {
+  tree_each_sequence: function() {
     let current = -1;
     this.tree.each(value => {
       this.assert(value === ++current, "tree - each - good sequence");
     });
+  },
+
+  tree_each_all: function() {
+    let count = 0;
+    this.tree.each(value => ++count);
+    this.assert(count === this.size, "tree - each - size");
   }
 };
