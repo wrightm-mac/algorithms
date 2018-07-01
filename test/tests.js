@@ -50,6 +50,7 @@ const collectionSimpleLinkedList = require('./collection/simplelinkedlist');
 const collectionHashMapSize = require('./collection/hashmap_size');
 const collectionHashMapContent = require('./collection/hashmap_content');
 const collectionBinaryTreeUnique = require('./collection/binarytree_unique');
+const collectionBinaryTreeDuplicate = require('./collection/binarytree_duplicate');
 
 const searchSequential = require('./search/sequential');
 const searchBinary = require('./search/binary');
@@ -60,16 +61,17 @@ peddle.run(coreStandard);
 peddle.run(coreUtility);
 peddle.run(coreHash);
 
-// peddle.run(sortInsertion);
-// peddle.run(sortSelection);
-// peddle.run(sortHeap);
-// peddle.run(sortQuick);
-// peddle.run(sortMerge);
+peddle.run(sortInsertion);
+peddle.run(sortSelection);
+peddle.run(sortHeap);
+peddle.run(sortQuick);
+peddle.run(sortMerge);
 
 peddle.run(collectionSimpleLinkedList);
 peddle.run(collectionHashMapSize);
 peddle.run(collectionHashMapContent);
 peddle.run(collectionBinaryTreeUnique);
+peddle.run(collectionBinaryTreeDuplicate);
 
-// peddle.run(searchSequential);
-// peddle.run(searchBinary);
+peddle.run(searchSequential);
+peddle.run(searchBinary);
