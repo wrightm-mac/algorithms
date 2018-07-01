@@ -35,6 +35,7 @@
 
 const hashmap = require('../../lib/collection/hashmap');
 const compare = require('../../lib/core/compare');
+const utility = require('../../lib/core/utility');
 
 
 module.exports = {
@@ -43,11 +44,14 @@ module.exports = {
   $setup: function() {
     this.collection = new hashmap(compare.number, 197);
 
-    for (let count = 1; count <= 1000; ++count) {
-      this.collection.add(count);
+    this.values = utility.array.scatter(2000);
+    for (const value of this.values) {
+      this.collection.add(value);
     }
+  },
 
-    this.assert(this.collection.size() === 1000, "hashmap content - created size");
+  list_content_size: function() {
+    this.assert(this.collection.size() === this.values.length, "hashmap size");
   },
 
   list_content_find_good: function() {
@@ -59,29 +63,31 @@ module.exports = {
 
   list_content_find_bad: function() {
     this.assertUndefined(this.collection.find(-31), "hashmap - content bad");
-    this.assertUndefined(this.collection.find(99000), "hashmap - content bad");
-    this.assertUndefined(this.collection.find(1001), "hashmap - content bad");
+    this.assertUndefined(this.collection.find(this.values.length + 2108), "hashmap - content bad");
+    this.assertUndefined(this.collection.find(this.values.length + 1001), "hashmap - content bad");
   },
 
   list_content_add_duplicate_size: function() {
     this.collection.add(210);
-    this.assert(this.collection.size() === 1000, "hashmap - content add duplicate size");
+    this.assert(this.collection.size() === this.values.length, "hashmap - content add duplicate size");
   },
 
   list_content_add_duplicate_find: function() {
-    this.collection.add(800);
-    this.assertDefined(this.collection.find(800), "hashmap - content add duplicate find");
+    const value = this.values.length + 9999;
+    this.collection.add(value);
+    this.assertDefined(this.collection.find(value), "hashmap - content add duplicate find");
   },
 
   list_content_add_duplicate_not_find: function() {
-    this.collection.add(800);
-    this.assertUndefined(this.collection.find(1031), "hashmap - content add duplicate not find");
+    const value = this.values.length + 9999;
+    this.collection.add(value);
+    this.assertUndefined(this.collection.find(this.values.length + 2108), "hashmap - content add duplicate not find");
   },
 
   list_content_remove_size: function() {
     this.collection.remove(800);
     this.collection.remove(210);
-    this.assert(this.collection.size() === 998, "hashmap - content remove size");
+    this.assert(this.collection.size() === this.values.length - 2, "hashmap - content remove size");
   },
 
   list_content_remove_find_other: function() {
@@ -100,7 +106,7 @@ module.exports = {
       this.assertDefined(value, "hashmap - content iterate has value");
       ++count;
     }
-    this.assert(count === 1000, "hashmap - content iterate count correct");
+    this.assert(count === this.values.length, "hashmap - content iterate count correct");
   },
 
   list_content_iterate_value_correct: function() {
@@ -116,7 +122,7 @@ module.exports = {
   list_content_iterate_value_incorrect: function() {
     let found;
     for (const value of this.collection.iterate()) {
-      if (value === 8000) {
+      if (value === this.values + 2108) {
         found = true;
       }
     }
