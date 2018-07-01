@@ -43,26 +43,45 @@ module.exports = {
   name: "search/sequential",
 
   $setup: function() {
-    this.collection = utility.array.random(10000, 1, 10000);
+    this.collection = utility.array.scatter(10000);
   },
 
-  search_find_median: function() {
-    const value = this.collection[Math.floor(this.collection.length / 2)];
-    this.assert(search(this.collection, value, compare.number), "search sequential - find median");
-  },
-
-  search_find_first: function() {
+  search_find_first_defined: function() {
     const value = this.collection[0];
-    this.assert(search(this.collection, value, compare.number), "search sequential - find first");
+    this.assertDefined(search(this.collection, value, compare.number), "search sequential - find first defined");
   },
 
-  search_find_last: function() {
-    const value = this.collection[this.collection.length - 1];
-    this.assert(search(this.collection, value, compare.number), "search sequential - find last");
+  search_find_first_index: function() {
+    const value = this.collection[0];
+    this.assert(search(this.collection, value, compare.number) === 0, "search sequential - find first index");
+  },
+
+  search_find_median_defined: function() {
+    const index = Math.floor(this.collection.length / 2);
+    const value = this.collection[index];
+    this.assertDefined(search(this.collection, value, compare.number), "search sequential - find median defined");
+  },
+
+  search_find_median_index: function() {
+    const index = Math.floor(this.collection.length / 2);
+    const value = this.collection[index];
+    this.assert(search(this.collection, value, compare.number) === index, "search sequential - find median index");
+  },
+
+  search_find_last_defined: function() {
+    const index = Math.floor(this.collection.length - 1);
+    const value = this.collection[index];
+    this.assertDefined(search(this.collection, value, compare.number), "search sequential - find last defined");
+  },
+
+  search_find_last_index: function() {
+    const index = Math.floor(this.collection.length - 1);
+    const value = this.collection[index];
+    this.assert(search(this.collection, value, compare.number) === index, "search sequential - find last index");
   },
 
   search_fail: function() {
     const value = 99000;
-    this.assert(! search(this.collection, value, compare.number), "search sequential - not found");
+    this.assertUndefined(search(this.collection, value, compare.number), "search sequential - not found");
   }
 };
