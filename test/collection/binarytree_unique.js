@@ -46,8 +46,8 @@ module.exports = {
 
     this.size = 2108;
     for (let count = 0; count < 3; ++count) {
-      let values = utility.array.scatter(this.size);
-      for (const value of values) {
+      this.values = utility.array.scatter(this.size);
+      for (const value of this.values) {
         this.tree.add(value);
       }
     }
@@ -58,17 +58,18 @@ module.exports = {
   },
 
   tree_contains_good: function() {
-    this.assertDefined(this.tree.find(3), "tree - contains good");
+    const value = utility.random(this.values);
+    this.assertDefined(this.tree.find(value), "tree - contains good");
   },
 
   tree_contains_bad: function() {
-    this.assertUndefined(this.tree.find(3100), "tree - contains bad");
+    this.assertUndefined(this.tree.find(this.size + 999), "tree - contains bad");
   },
 
   tree_each_sequence: function() {
-    let current = -1;
+    let current = 0;
     this.tree.each(value => {
-      this.assert(value === ++current, "tree - each - good sequence");
+      this.assert(value === current++, "tree - each - good sequence");
     });
   },
 
@@ -76,5 +77,57 @@ module.exports = {
     let count = 0;
     this.tree.each(value => ++count);
     this.assert(count === this.size, "tree - each - size");
-  }
+  },
+
+  tree_remove_good_size: function() {
+    const value = utility.random(this.values);
+    this.tree.remove(value);
+    this.assert(this.tree.size() === this.size - 1, "tree - remove - size good");
+  },
+
+  tree_remove_bad_size: function() {
+    const value = this.size + 999;
+    this.tree.remove(value);
+    this.assert(this.tree.size() === this.size, "tree - remove - size bad");
+  },
+
+  tree_remove_good: function() {
+    const value = utility.random(this.values);
+    this.tree.remove(value);
+    this.assertUndefined(this.tree.find(value), "tree - remove - good");
+  },
+
+  tree_remove_bad: function() {
+    const value = this.size + 999;
+    this.tree.remove(value);
+    this.assertUndefined(this.tree.find(value), "tree - remove - bad");
+  },
+
+  tree_remove_good_sequence: function() {
+    const value = utility.random(this.values);
+    this.tree.remove(value);
+    let current = 0;
+    this.tree.each(value => {
+      this.assert(value >= current, "tree - remove - good sequence");
+      current = value;
+    });
+  },
+
+  tree_remove_good_sequence_size: function() {
+    const value = utility.random(this.values);
+    this.tree.remove(value);
+    let count = 0;
+    this.tree.each(value => ++count);
+    this.assert(count === this.size - 1, "tree - remove - good sequence size");
+  },
+
+  tree_remove_bad_sequence: function() {
+    const value = utility.random(this.values);
+    this.tree.remove(value);
+    let current = 0;
+    this.tree.each(value => {
+      this.assert(value >= current, "tree - each - good sequence");
+      current = value;
+    });
+  },
 };
