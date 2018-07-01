@@ -46,7 +46,7 @@ const sortHeap = require('./sort/heap');
 const sortQuick = require('./sort/quick');
 const sortMerge = require('./sort/merge');
 
-const collectionSimpleLinkedList = require('./collection/simplelinkedlist');
+const collectionLinkedList = require('./collection/linkedlist');
 const collectionHashMapSize = require('./collection/hashmap_size');
 const collectionHashMapContent = require('./collection/hashmap_content');
 const collectionBinaryTreeUnique = require('./collection/binarytree_unique');
@@ -67,7 +67,7 @@ peddle.run(sortHeap);
 peddle.run(sortQuick);
 peddle.run(sortMerge);
 
-peddle.run(collectionSimpleLinkedList);
+peddle.run(collectionLinkedList);
 peddle.run(collectionHashMapSize);
 peddle.run(collectionHashMapContent);
 peddle.run(collectionBinaryTreeUnique);
