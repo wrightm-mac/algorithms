@@ -33,49 +33,56 @@
 ----------------------------------------------------------------------------- */
 
 
-const peddle = require('./lib/peddle');
-
-const coreCompare = require('./core/compare');
-const coreStandard = require('./core/standard');
-const coreUtility = require('./core/utility');
-const coreHash = require('./core/hash');
-
-const sortInsertion = require('./sort/insertion');
-const sortSelection = require('./sort/selection');
-const sortHeap = require('./sort/heap');
-const sortQuick = require('./sort/quick');
-const sortMerge = require('./sort/merge');
-
-const collectionLinkedList = require('./collection/linkedlist');
-const collectionStack = require('./collection/stack');
-const collectionQueue = require('./collection/queue');
-const collectionHashMapSize = require('./collection/hashmap_size');
-const collectionHashMapContent = require('./collection/hashmap_content');
-const collectionBinaryTreeUnique = require('./collection/binarytree_unique');
-const collectionBinaryTreeDuplicate = require('./collection/binarytree_duplicate');
-
-const searchSequential = require('./search/sequential');
-const searchBinary = require('./search/binary');
+const queue = require('../../lib/collection/queue');
 
 
-peddle.run(coreCompare);
-peddle.run(coreStandard);
-peddle.run(coreUtility);
-peddle.run(coreHash);
+module.exports = {
+  name: "collection/queue",
 
-peddle.run(sortInsertion);
-peddle.run(sortSelection);
-peddle.run(sortHeap);
-peddle.run(sortQuick);
-peddle.run(sortMerge);
+  $setup: function() {
+    this.queue = new queue();
+    this.queue.put(10);
+    this.queue.put(20);
+    this.queue.put(30);
+  },
 
-peddle.run(collectionLinkedList);
-peddle.run(collectionStack);
-peddle.run(collectionQueue);
-peddle.run(collectionHashMapSize);
-peddle.run(collectionHashMapContent);
-peddle.run(collectionBinaryTreeUnique);
-peddle.run(collectionBinaryTreeDuplicate);
+  queue_size_empty: function() {
+    this.queue = new queue();
+    this.assert(this.queue.size() === 0, "queue - size empty");
+  },
 
-peddle.run(searchSequential);
-peddle.run(searchBinary);
+  queue_size: function() {
+    this.assert(this.queue.size() === 3, "queue - size");
+  },
+
+  queue_peek_value: function() {
+    this.assert(this.queue.peek() === 10, "queue - peek value");
+  },
+
+  stack_peek_size: function() {
+    this.queue.peek();
+    this.assert(this.queue.size() === 3, "queue - peek size");
+  },
+
+  queue_get_value: function() {
+    this.assert(this.queue.get() === 10, "queue - get value");
+  },
+
+  queue_get_size: function() {
+    this.queue.get();
+    this.assert(this.queue.size() === 2, "queue - get size");
+  },
+
+  queue_clear: function() {
+    this.queue.clear();
+    this.assert(this.queue.size() === 0, "queue - clear");
+  },
+
+  queue_get_until_empty: function() {
+    let count = this.queue.size();
+    while (this.queue.get()) {
+      --count;
+    }
+    this.assert(count === 0, "queue - get until empty");
+  }
+};
