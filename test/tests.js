@@ -52,6 +52,8 @@ const collectionStack = require('./collection/stack');
 const collectionQueue = require('./collection/queue');
 const collectionHashMapSize = require('./collection/hashmap_size');
 const collectionHashMapContent = require('./collection/hashmap_content');
+const collectionHashMapSizeTyped = require('./collection/hashmap_typed_size');
+const collectionHashMapContentTyped = require('./collection/hashmap_typed_content');
 const collectionBinaryTreeUnique = require('./collection/binarytree_unique');
 const collectionBinaryTreeDuplicate = require('./collection/binarytree_duplicate');
 
@@ -71,11 +73,12 @@ peddle.run(sortQuick);
 peddle.run(sortMerge);
 
 peddle.run(collectionLinkedList);
-peddle.run(collectionLinkedListTyped);
 peddle.run(collectionStack);
 peddle.run(collectionQueue);
 peddle.run(collectionHashMapSize);
 peddle.run(collectionHashMapContent);
+peddle.run(collectionHashMapSizeTyped);
+peddle.run(collectionHashMapContentTyped);
 peddle.run(collectionBinaryTreeUnique);
 peddle.run(collectionBinaryTreeDuplicate);
 

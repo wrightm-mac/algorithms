@@ -92,8 +92,8 @@ module.exports = {
   },
 
   list_find_double_first_value_exists: function() {
-    this.collection.add("hello");
-    this.collection.add("world");
+    this.collection.add(new ListItem("hello"));
+    this.collection.add(new ListItem("world"));
     this.assertDefined(this.collection.find(new ListItem("hello")), "linked-list - find double first-exists");
   },
 
@@ -116,9 +116,9 @@ module.exports = {
   },
 
   list_find_triple_lastvalue_correct: function() {
-    this.collection.add("hello");
-    this.collection.add("world");
-    this.collection.add("yada");
+    this.collection.add(new ListItem("hello"));
+    this.collection.add(new ListItem("world"));
+    this.collection.add(new ListItem("yada"));
     this.assert(this.collection.find(new ListItem("yada")).value === "yada", "linked-list - find trip third-correct");
   },
 
