@@ -35,3 +35,46 @@
 const utility = require("./lib/core/utility");
 const insertion = require("./lib/sort/insertion");
 const compare = require("./lib/core/compare");
+
+
+const fs = require("fs");
+
+//fs.stat("/home/michael/tmp/hello.txt", (err, data) => {
+// fs.stat("/home/michael/tmp", (err, data) => {
+//   if (err) {
+//     console.error("[error=%o]", err);
+//   }
+//   else {
+//     console.log("[data=%o]", data);
+//   }
+// });
+
+
+const file = require("./lib/system/file");
+
+file.read("/home/michael/tmp/hello.txt")
+    .then(data => {
+      console.log("[data=%o]", data);
+    })
+    .catch(error => {
+      console.error("[error=%o]", error);
+    });
+
+// file.directory(".")
+//     .then(files => {
+//       const filtered = [];
+//       for (const filename of files) {
+//         if (filename[0] !== ".") {
+//           filtered.push(filename);
+//         }
+//       }
+//       return filtered;
+//     })
+//     .then(files => {
+//       for (const filename of files) {
+//         console.log("[name=%o]", filename);
+//       }
+//     })
+//     .catch(error => {
+//       console.error("[error=%o]", error);
+//     });
