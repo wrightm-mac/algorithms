@@ -36,195 +36,76 @@
 
 const gulp = require('gulp');
 const clean = require('gulp-clean');
-const del = require('del');
 const concat = require('gulp-concat');
-const less = require('gulp-less');
 const babel = require('gulp-babel');
-const minifyCss = require('gulp-clean-css');
-const minify = require('gulp-minify-html');
 const uglify = require('gulp-uglify');
 const jsonmin = require('gulp-jsonmin');
 const chalk = require('chalk');
 
-let src = 'assets/';
-let dest = 'public/';
+let src = 'lib/';
+let dest = 'build/';
 
 
-gulp.task('clean:client', function() {
-  return gulp.src('public', { read: false })
+gulp.task('clean', function(done) {
+  return gulp.src(dest, { allowEmpty: true, read: false })
     .pipe(clean());
+
+    done();
 });
 
-gulp.task('clean:server', function() {
-  let sources = [
-    'routes',
-    'app.js',
-    'app.js.map'
-  ];
-
-  return gulp.src(sources, { read: false })
-    .pipe(clean());
-});
-
-gulp.task('client:3rdParty', function() {
-  gulp.src('assets/client/3rdparty/**/*.js')
-    .pipe(gulp.dest('public/scripts'));
-
-  gulp.src('assets/client/3rdparty/**/*.css')
-    .pipe(gulp.dest('public/css'));
-});
-
-gulp.task('client:css:less', function() {
-  gulp.src('assets/client/css/styles.less')
-    .pipe(less())
-    .pipe(minifyCss({ keepBreaks: false }))
-    .pipe(gulp.dest('public/css'));
-});
-
-gulp.task('client:css:images', function() {
-  gulp.src('assets/client/css/images/*')
-    .pipe(gulp.dest('public/css/images'));
-});
-
-gulp.task('client:css', ['client:css:less', 'client:css:images']);
-
-gulp.task('client:data', function() {
-  gulp.src('assets/client/data/**/*.json')
+gulp.task('minify:json', function(done) {
+  gulp.src(src + '/**/*.json')
     .pipe(jsonmin())
-    .pipe(gulp.dest('public/data'));
+    .pipe(gulp.dest(dest));
+
+    done();
 });
 
-gulp.task('client:html', function() {
-  gulp.src('assets/client/html/**/*.html')
-    .pipe(minify())
-    .pipe(gulp.dest('public'));
-});
-
-gulp.task('client:images', function() {
-  gulp.src('assets/client/images/**/*')
-    .pipe(gulp.dest('public/images'));
-
-  gulp.src('assets/client/favicon.ico')
-    .pipe(gulp.dest('public'));
-});
-
-gulp.task('client:scripts', function() {
+gulp.task('minify:js', function(done) {
   let sources = [
-    'assets/client/scripts/**/*.js'
+    src + '/**/*.js'
   ];
 
   gulp.src(sources)
     .pipe(babel({ presets: ['env'] }))
     .pipe(uglify())
     .pipe(concat('application.js'))
-    .pipe(gulp.dest('public/scripts'));
+    .pipe(gulp.dest(dest));
+
+    done();
 });
 
-gulp.task('client:static:css', function() {
-  gulp.src('assets/client/static/*.less')
-    .pipe(less())
-    .pipe(minifyCss({ keepBreaks: false }))
-    .pipe(gulp.dest('public/css'));
-});
+gulp.task('build', gulp.parallel('minify:js', 'minify:json', (done) => {
+  done();
+}));
 
-gulp.task('client:static:scripts', function() {
-  let sources = [
-    'assets/client/static/**/*.js'
-  ];
+gulp.task('build:all', gulp.series('clean', 'build', (done) => {
+  done();
+}));
 
-  gulp.src(sources)
-    .pipe(babel({ presets: ['env'] }))
-    //.pipe(uglify())
-    .pipe(gulp.dest('public/scripts'));
-});
-
-gulp.task('client:fast', ['client:css', 'client:scripts']);
-
-gulp.task('client:static', ['client:static:css', 'client:static:scripts']);
-
-gulp.task('client', ['client:3rdParty', 'client:data', 'client:css', 'client:html', 'client:images', 'client:scripts', 'client:static']);
-
-gulp.task('server:scripts', function() {
-  let sources = [
-    'assets/server/**/*.js'
-  ];
-
-  gulp.src(sources)
-    .pipe(babel({ presets: ['env'] }))
-    .pipe(uglify())
-    .pipe(gulp.dest(''));
-});
-
-gulp.task('server', ['server:scripts']);
-
-gulp.task('_out:watchstart', function() {
+gulp.task('_out:watchstart', function(done) {
   console.log(chalk.yellow('assets changed - starting rebuild...'));
+
+  done();
 });
 
-gulp.task('_out:watchend', function() {
+gulp.task('_out:watchend', function(done) {
   console.log(chalk.yellow('...rebuild done!\n\n'));
+
+  done();
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', function(done) {
   console.log('Watching...');
 
   let watchFiles = [
-    'assets/client/**',
-    'assets/client/css/**/*.less',
-    'assets/client/data/*',
-    'assets/client/images/*',
-    'assets/client/scripts/**/*.js',
-    'assets/client/static/*',
-    'assets/server/**',
-    'assets/server/lib/**/*.js',
-    'assets/server/routes/**/*.js',
+    src + '/**/*.js',
+    src + '/**/*.json'
   ];
 
-    gulp.watch(watchFiles, ['_out:watchstart', 'build', '_out:watchend']);
+    gulp.watch(watchFiles, gulp.series('_out:watchstart', 'build', '_out:watchend', (watchdone) => {
+      watchdone();
+    }));
+
+    done();
 });
-
-gulp.task('watch:client:fast', function() {
-  console.log('Watching...');
-
-  let watchFiles = [
-    'assets/client/css/**/*.less',
-    'assets/client/scripts/**/*.js'
-  ];
-
-  gulp.watch(watchFiles, ['_out:watchstart', 'client:fast', '_out:watchend']);
-});
-
-gulp.task('watch:client:static', function() {
-  console.log('Watching...');
-
-  let watchFiles = [
-    'assets/client/css/**/*.less',
-    'assets/client/static/**/*.less',
-    'assets/client/scripts/**/*.js',
-    'assets/client/static/**/*.js'
-  ];
-
-  gulp.watch(watchFiles, ['_out:watchstart', 'client:fast', 'client:static', '_out:watchend']);
-});
-
-gulp.task('watch:fast', function() {
-  console.log('Watching...');
-
-  let watchFiles = [
-    'assets/client/css/**/*.less',
-    'assets/client/scripts/**/*.js',
-    'assets/server/routes/**/*.js',
-  ];
-
-  gulp.watch(watchFiles, ['_out:watchstart', 'client:fast', 'server', '_out:watchend']);
-});
-
-gulp.task('clean', ['clean:client', 'clean:server']);
-
-gulp.task('build:fast', ['client:fast', 'server']);
-
-gulp.task('build', ['client', 'server']);
-
-gulp.task('build:all', ['clean', 'build']);
-
-gulp.task('default', ['build']);
